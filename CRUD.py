@@ -28,7 +28,7 @@ def apresenteSe ():
     print('|                                                             |')
     print('| Bruna Nascimento Savelli e Rafaela Lorena da Luz Antunes    |')
     print('|                                                             |')
-    print('| Versão 1.0 de 22/abril/2026                                 |')
+    print('| Versão 1.0 de 25/05/2026                                 |')
     print('|                                                             |')
     print('+-------------------------------------------------------------+')
 
@@ -129,14 +129,56 @@ def procurar (agd):
             print('e-mail.....: ',agd[posicao][5])
             print('-----------------------------')
 
-def atualizar (agd):
-    print('Opção não implementada!')
-    # Ficar mostrando um SUBMENU oferecendo as opções de atualizar aniversário, ou
-    # endereco, ou telefone, ou celular, ou email, ou finalizar as
-    # atualizações; ficar pedindo para digitar a opção até digitar uma
-    # opção válida; realizar a atulização solicitada; até ser escolhida a
-    # opção de finalizar as atualizações.
-    # USAR A FUNÇÃO opcaoEscolhida, JÁ IMPLEMENTADA, PARA FAZER O SUBMENU
+def atualizar (agd): 
+    if len(agd) == 0:
+        print('Agenda vazia!')
+    else:
+        nome = input('\nDigite o nome do contato que deseja atualizar: ')
+
+        resposta = ondeEsta(nome, agd)
+        achou = resposta[0]
+        posicao = resposta[1]
+
+        if not achou:
+            print('Esse contato não está na sua lista!')
+        else:
+            submenu = [
+                'Atualizar aniversário',
+                'Atualizar endereço',
+                'Atualizar telefone',
+                'Atualizar celular',
+                'Atualizar e-mail',
+                'Finalizar atualizações'
+            ]
+
+            finalizar = False
+
+            while not finalizar:
+                opcao = int(opcaoEscolhida(submenu))
+
+                if opcao == 1:
+                    agd[posicao][1] = input('Novo aniversário: ')
+                    print('Aniversário atualizado com sucesso!')
+
+                elif opcao == 2:
+                    agd[posicao][2] = input('Novo endereço: ')
+                    print('Endereço atualizado com sucesso!')
+
+                elif opcao == 3:
+                    agd[posicao][3] = input('Novo telefone: ')
+                    print('Telefone atualizado com sucesso!')
+
+                elif opcao == 4:
+                    agd[posicao][4] = input('Novo celular: ')
+                    print('Celular atualizado com sucesso!')
+
+                elif opcao == 5:
+                    agd[posicao][5] = input('Novo e-mail: ')
+                    print('E-mail atualizado com sucesso!')
+
+                else:
+                    finalizar = True
+                    print('Atualizações finalizadas!')
 
 def listar (agd):
     if len(agd)==0:
@@ -154,17 +196,30 @@ def listar (agd):
             posicao+=1
         print('-----------------------------')
 
-def excluir (agd):
-    print('Opção não implementada!')
-    # solicitar o nome do contato a excluir; não estando cadastrado o contato, avisar
-    # através de uma mensagem de erro e, estando cadastrado, ficar pedindo confirmação,
-    # ou S ou N, da exclusão, até que uma confirmação válida, ou S ou N, seja digitada;
-    # no caso de ser digitado S, realizar a exclusão e mostrar mensagem indicando que
-    # a exclusão foi realizada com sucesso e, no caso de ser digitado N, não modificar a
-    # agenda e mostrar mensagem indicando que a exclusão não foi realizada.
+def excluir (agd): 
+    if len(agd) == 0:
+        print('Agenda vazia!')
+    else:
+        nome = input('\nDigite o nome do contato que deseja excluir: ')
 
-# daqui para cima, definimos subprogramas (ou módulos, é a mesma coisa)
-# daqui para baixo, implementamos o programa (nosso CRUD, C=create(cadastrar), R=read(recuperar), U=update(atualizar), D=delete(remover,apagar)
+        resposta = ondeEsta(nome, agd)
+        achou = resposta[0]
+        posicao = resposta[1]
+
+        if not achou:
+            print('Esse contato não está cadastrado!')
+        else:
+            confirmacao = umTexto(
+                'Confirma a exclusão? Digite S para sim ou N para não: ',
+                'Confirmação inválida',
+                ['S', 'N', 's', 'n']
+            )
+
+            if confirmacao.upper() == 'S':
+                agd.pop(posicao)
+                print('Exclusão realizada com sucesso!')
+            else:
+                print('Exclusão não realizada!')
 
 apresenteSe()
 
